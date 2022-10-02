@@ -35,72 +35,74 @@
 // !
 
 let arr = [1, 5, 29, 0, 1, -5, -17, 55, 29, 95, -98, -9, 1, 5, 15]
+let arrSorted = [-17, -5, -9, -98, 0, 1, 1, 1, 15, 29, 29, 5, 5, 55, 95]
 let arr2 = [30, 0, -5, 101, -500, 404]
+let arr2Sorted = [-5, -500, 0, 101, 30, 404]
+let arr3 = [1, 5, 29, 0, 1, -5, 5, 5, 20, 3, 3, 10, 29, 5, 6]
+let arr3Sorted = [-5, 0, 1, 1, 3, 3, 5, 5, 5, 5, 6, 10, 20, 29, 29]
 
-const bubbleSort = arr => {
-  for (let i = 1; i < arr.length; i++) {
-    for (let j = 0; j < arr.length - i; j++) {
-      if (arr[j + 1] < arr[j]) {
-        ;[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
-      }
-    }
+const polynome = (arr, xValue) => arr.reduce((v1, v2) => v1 * xValue + v2, 0)
+const classicPolynome = (arr, xValue) =>
+  arr.reverse().reduce((v1, v2, index) => v1 + v2 * xValue ** index, 0)
+
+// const componentWiseOperation = (func, { rows }) => {
+//   const newRows = rows.map((row, i) =>
+//     rows.map((element, j) => func(rows[i][j], element))
+//   )
+
+//   return newRows
+// }
+// const addMatrix = other => {
+//   console.log('addMatrix: ', other)
+//   return componentWiseOperation((a, b) => a + b, other)
+// }
+
+// const one = [
+//   [1, 2],
+//   [3, 4],
+// ]
+
+// const other = [
+//   [5, 6],
+//   [7, 8],
+// ]
+
+// console.log(one.add(other))
+
+class Matrix {
+  constructor(rows) {
+    this.rows = rows
   }
-  return arr
+  // ...
+  componentWiseOperation(func, { rows }) {
+    const newRows = rows.map((row, i) =>
+      row.map((element, j) => {
+        console.log("rows[i][j]: ", rows[i][j])
+        console.log("i: ", i)
+        console.log("j: ", j)
+        return func(this.rows[i][j], element)
+      })
+    )
+    return newRows
+  }
+  add(other) {
+    return this.componentWiseOperation((a, b) => a + b, other)
+  }
+  subtract(other) {
+    return this.componentWiseOperation((a, b) => a - b, other)
+  }
 }
 
-// console.log(bubbleSort(arr))
-// ----------------------------------------------------------------
-// !
+const one = new Matrix([
+  [1, 2],
+  [3, 4],
+])
+const other = new Matrix([
+  [5, 6],
+  [7, 8],
+])
 
-const selectionSort = arr => {
-  for (let i = 0; i < arr.length; i++) {
-    let minIndex = i
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[j] < arr[minIndex]) {
-        minIndex = j
-      }
-    }
-    ;[arr[i], arr[minIndex]] = [arr[minIndex], arr[i]]
-  }
-  return arr
-}
-// console.log(selectionSort(arr))
-// ----------------------------------------------------------------
-// !
-
-const insertionSort = arr => {
-  for (let i = 1; i < arr.length; i++) {
-    let prevElement = arr[i]
-    let nextElement = i - 1
-
-    while (nextElement >= 0 && arr[nextElement] > prevElement) {
-      arr[nextElement + 1] = arr[nextElement]
-      nextElement--
-    }
-
-    arr[nextElement + 1] = prevElement
-  }
-
-  return arr
-}
-// console.log(insertionSort(arr))
-// ----------------------------------------------------------------
-// !
-
-const bs = arr => {
-  for (let i = 1; i < arr.length; i++) {
-    let value = arr[i]
-    let j = i - 1
-
-    while (j >= 0 && arr[j] > value) {
-      arr[j + 1] = arr[j]
-      j--
-    }
-
-    arr[j + 1] = value
-  }
-
-  return arr
-}
-
-console.log(bubbleSort(arr))
+console.log(one.add(other))
+// Matrix { rows: [ [ 6, 8 ], [ 10, 12 ] ] }
+console.log(other.subtract(one))
+// Matrix { rows: [ [ 4, 4 ], [ 4, 4 ] ] }
