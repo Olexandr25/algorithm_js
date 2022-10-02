@@ -1,19 +1,22 @@
-const isPowerOfTwo = number => {
-  if (number < 1) {
-    return false
+function fastPowering(base, power) {
+  if (power === 0) {
+    // Anything that is raised to the power of zero is 1.
+    return 1
   }
 
-  let dividerNumber = number
-  while (dividerNumber !== 1) {
-    if (dividerNumber % 2 !== 0) {
-      return false
-    }
-    dividerNumber /= 2
+  if (power % 2 === 0) {
+    // If the power is even...
+    // we may recursively redefine the result via twice smaller powers:
+    // x^8 = x^4 * x^4.
+    const multiplier = fastPowering(base, power / 2)
+    return multiplier * multiplier
   }
 
-  return true
+  // If the power is odd...
+  // we may recursively redefine the result via twice smaller powers:
+  // x^9 = x^4 * x^4 * x.
+  const multiplier = fastPowering(base, Math.floor(power / 2))
+  return multiplier * multiplier * base
 }
 
-console.log(isPowerOfTwo(16))
-
-// TODO: understand this better
+console.log(fastPowering(2,5))

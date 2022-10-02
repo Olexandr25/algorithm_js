@@ -4,12 +4,11 @@ const pascalTriangle = number => {
 
   for (let i = 1; i < currentLineLength; i++) {
     currentLine[i] = (currentLine[i - 1] * (number - i + 1)) / i
-    console.log(currentLine[i])
   }
 
   return currentLine
 }
 
-console.log(pascalTriangle(6))
+console.log(pascalTriangle(11))
 
 // TODO: repeat this algorithm
